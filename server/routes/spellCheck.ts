@@ -1,8 +1,10 @@
-const express = require("express");
-const axios = require("axios");
-const spellCheckRoute = express.Router();
+import axios from "axios";
+import { SpellCheckRequest } from "../types";
+import express, { Response, Router } from "express";
 
-spellCheckRoute.post("/", async (req, res) => {
+const spellCheckRoute: Router = express.Router();
+
+spellCheckRoute.post("/", async (req: SpellCheckRequest, res: Response) => {
   const { sentence } = req.body;
 	try {
 		const response = await axios.post(
@@ -34,14 +36,14 @@ spellCheckRoute.post("/", async (req, res) => {
 		);
 		const correctedSentence = response.data.choices[0].message.content.trim();
 		res.json(correctedSentence);
-	} catch (error) {
+	} catch (error: unknown) {
 		console.log(error);
 		res
 			.status(500)
 			.json({
-				error: `Failed to analyze sentence ${sentence} ${error.message}`,
+				error: `Failed to spell check sentence ${sentence} ${error instanceof Error ? error.message : 'Unknown error'}`,
 			});
 	}
 });
 
-module.exports = spellCheckRoute;
+export default spellCheckRoute;

@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-grow">
-        {/* Hero Section */}
+
         <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20 px-6">
           <div className="container mx-auto flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 mb-10 md:mb-0">
@@ -27,16 +27,21 @@ const Home = () => {
             </div>
             <div className="md:w-1/2">
               <img
-                style={{ width: "70%", height: "auto" }}
+                style={{ width: "70%", height: "auto", maxWidth: "500px" }}
                 src={ai}
                 alt="AI Writing"
                 className="rounded-lg shadow-2xl"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                width="500"
+                height="auto"
               />
             </div>
           </div>
         </section>
 
-        {/* Features Section */}
+
         <section className="py-20 px-6 bg-gray-100">
           <div className="container mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-800">

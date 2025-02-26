@@ -1,8 +1,10 @@
-const express = require("express");
-const axios = require("axios");
-const grammarCheckRoute = express.Router();
+import axios from "axios";
+import express, { Response, Router } from "express";
+import { GrammerCheckRequest } from "../types";
 
-grammarCheckRoute.post("/", async (req, res) => {
+const grammarCheckRoute: Router = express.Router();
+
+grammarCheckRoute.post("/", async (req: GrammerCheckRequest, res: Response) => {
 	const { sentence } = req.body;
 	try {
 		const response = await axios.post(
@@ -34,14 +36,15 @@ grammarCheckRoute.post("/", async (req, res) => {
 		);
 		const correctedSentence = response.data.choices[0].message.content.trim();
 		res.json(correctedSentence);
-	} catch (error) {
+	} catch (error: unknown) {
 		console.log(error);
 		res
 			.status(500)
 			.json({
-				error: `Failed to analyze sentence ${sentence} ${error.message}`,
+				error: `Failed to analyze sentence ${sentence} ${error instanceof Error ? error.message : 'Unknown error'}`,
 			});
 	}
 });
 
-module.exports = grammarCheckRoute;
+
+export default grammarCheckRoute;
